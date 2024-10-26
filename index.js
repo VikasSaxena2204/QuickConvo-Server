@@ -53,13 +53,13 @@ app.get('/', (req, res) => {
     res.send('Hello World!, Server is running.')
 });
 
-
 const io = socket(server, {
   cors: {
-    origin: "quick-convo-frontend.vercel.app",
+    origin: "https://quick-convo-frontend.vercel.app",
     credentials: true,
   },
 });
+
 
 global.onlineUsers = new Map();
 
