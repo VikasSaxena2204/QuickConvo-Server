@@ -11,9 +11,8 @@ dotenv.config();
 const app = express();
 const DB = process.env.DB;
 
-// Enable CORS for your frontend URL
 app.use(cors({ 
-    origin: 'http://localhost:3000', 
+    origin: 'https://quick-convo.vercel.app', 
     credentials: true 
 }));
 app.use(express.json());
@@ -33,40 +32,34 @@ mongoose.connect(DB, {
     console.error("MongoDB connection error:", err.message);
 });
 
-// Create the server and set it to listen on the specified port
 const server = app.listen(process.env.PORT, () => {
     console.log(`Server started on PORT ${process.env.PORT}`);
 });
 
-// Basic route for testing server
 app.get('/', (req, res) => {
     res.send('Hello World! Server is running.');
 });
 
-// Set up Socket.IO with the server
 const io = socket(server, {
     cors: {
-        origin: "http://localhost:3000", 
+        origin: "https://quick-convo.vercel.app", 
         methods: ["GET", "POST"], 
         credentials: true 
     },
 });
 
-// Create a map to keep track of online users
 global.onlineUsers = new Map();
 
-// Handle Socket.IO connections
 io.on("connection", (socket) => {
     console.log("New user connected:", socket.id);
     global.chatSocket = socket;
 
-    // Add user to online users when they connect
+   
     socket.on("add-user", (userId) => {
         onlineUsers.set(userId, socket.id);
         console.log(`User added: ${userId} with socket ID: ${socket.id}`);
     });
 
-    // Handle message sending
     socket.on("sendMessage", (data) => {
         const sendUserSocket = onlineUsers.get(data.to);
         if (sendUserSocket) {
