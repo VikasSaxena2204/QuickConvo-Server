@@ -15,7 +15,6 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-//const DB= 'mongodb+srv://vikassaxena123578:Saxena@125@cluster0.oqjnm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.set('strictQuery', true);
 
