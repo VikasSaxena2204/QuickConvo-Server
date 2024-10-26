@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const messageRoutes = require("./routes/messages");
 const app = express();
-const socket = require("socket.io");
 require("dotenv").config();
+
+const socket = require("socket.io");
+const DB = process.env.DB;
 
 app.use(cors({origin: 'https://quick-convo-frontend.vercel.app'}));
 app.use(express.json());
