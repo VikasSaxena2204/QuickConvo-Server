@@ -7,36 +7,61 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 
-app.use(cors());
+app.use(cors({origin: 'https://quick-convo-frontend.vercel.app'}));
 app.use(express.json());
-
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("DB Connection Successful");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-const server = app.listen(process.env.PORT, () =>
-  console.log(`Server started on ${process.env.PORT}`)
-);
+//const DB= 'mongodb+srv://vikassaxena123578:Saxena@125@cluster0.oqjnm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
+mongoose.set('strictQuery', true);
+
+mongoose.connect(DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log("Connected to MongoDB (cloud)")
+}).catch((err) => {
+    console.log("Error!!!")
+    console.log(err)
+})
+
+
+// mongoose.connect(process.env.MONGO_URL, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// }).then(() => {
+//     console.log("Connected to MongoDB")
+// }).catch((err) => {
+//     console.log("Error!!!")
+//     console.log(err)
+// })
+
+const server = app.listen(process.env.PORT, () => {
+    console.log(`Server started on PORT ${process.env.PORT}`)
+});
+
+server.prependListener("request", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+});
+
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+});
+
 
 const io = socket(server, {
   cors: {
-    origin: "https://quick-convo-frontend.vercel.app/",
+    origin: "quick-convo-frontend.vercel.app",
     credentials: true,
   },
 });
 
 global.onlineUsers = new Map();
+
 io.on("connection", (socket) => {
   global.chatSocket = socket;
   
