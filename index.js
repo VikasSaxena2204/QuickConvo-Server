@@ -11,7 +11,7 @@ const app = express();
 
 const DB = process.env.DB;
 
-app.use(cors({ origin: 'https://quick-convo.vercel.app' }));
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 const io = socket(server, {
     cors: {
-        origin: "https://quick-convo.vercel.app",
+        origin: "http://localhost:3000",
         credentials: true,
     },
 });
