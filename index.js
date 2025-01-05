@@ -37,7 +37,7 @@ const server = app.listen(process.env.PORT, () => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World! Server is running.');
+    res.send('Hello World! Server is running. MongoDB is Connected');
 });
 
 const io = socket(server, {
