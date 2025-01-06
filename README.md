@@ -1,4 +1,4 @@
-# Quick-Convo backend
+# Quick-Convo backend 
 # Quick-Convo
 Quick Convo is a full-stack application using MERN technologies to facilitate instant messaging and user conversations. It features real-time chat functionality, a user-friendly interface, and secure backend services to ensure smooth communication.
 
@@ -6,6 +6,7 @@ Quick Convo is a full-stack application using MERN technologies to facilitate in
 Backend is running on: https://quick-convo-server.vercel.app/
 </br>
 Frontend is running on: https://quick-convo.vercel.app/
+
 ## Features
 
 - Real-time messaging using Socket.IO
